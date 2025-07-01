@@ -1,0 +1,1687 @@
+|<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Power Pulse - Alimentación y Entrenamiento Saludable</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.css">
+    <style id="app-style">
+      body {
+        font-family: 'Poppins', sans-serif;
+        background-color: #f8f9fa;
+        color: #333;
+      }
+      
+      .app-container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      
+      .brand-primary {
+        color: #38f176;
+      }
+      
+      .brand-secondary {
+        color: #4b84d5;
+      }
+      
+      .gradient-bg {
+       background: linear-gradient(135deg, #38f176 0%, #06b6d4 100%);
+      }
+      
+      .card {
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      
+      .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      }
+      
+      .feature-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 15px;
+        font-size: 24px;
+      }
+      
+      .feature-card {
+        padding: 25px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .btn-primary {
+        background: linear-gradient(135deg, #4f46e5 0%, #06d477 100%);
+        color: white;
+        border-radius: 12px;
+        padding: 12px 20px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+      
+      .btn-primary:hover {
+        opacity: 0.9;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(79, 70, 229, 0.3);
+      }
+      
+      .btn-secondary {
+        background: white;
+        color: #36de7c;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 12px 20px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+      
+      .btn-secondary:hover {
+        background: #f3f4f6;
+        transform: translateY(-2px);
+      }
+      
+      .form-input {
+        width: 100%;
+        padding: 12px 16px;
+        border-radius: 12px;
+        border: 1px solid #e5e7eb;
+        transition: all 0.3s ease;
+        outline: none;
+      }
+      
+      .form-input:focus {
+        border-color: #4f46e5;
+        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+      }
+      
+      .section {
+        padding: 60px 0;
+      }
+      
+      .loader-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        visibility: hidden;
+        opacity: 0;
+        transition: all 0.3s;
+      }
+      
+      .loader-overlay.active {
+        visibility: visible;
+        opacity: 1;
+      }
+      
+      .loader {
+        width: 50px;
+        height: 50px;
+        border: 5px solid #f3f3f3;
+        border-top: 5px solid #4f46e5;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+      
+      .progress-chart {
+        max-height: 300px;
+      }
+      
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      
+      .hidden {
+        display: none;
+      }
+      
+      /* Modal styles */
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        visibility: hidden;
+        opacity: 0;
+        transition: all 0.3s;
+      }
+      
+      .modal-overlay.active {
+        visibility: visible;
+        opacity: 1;
+      }
+      
+      .modal-content {
+        background: white;
+        border-radius: 16px;
+        padding: 30px;
+        max-width: 600px;
+        width: 90%;
+        max-height: 80vh;
+        overflow-y: auto;
+        transform: translateY(-20px);
+        transition: all 0.3s;
+      }
+      
+      .modal-overlay.active .modal-content {
+        transform: translateY(0);
+      }
+      
+      .ai-chat-container {
+        height: 400px;
+        overflow-y: auto;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 15px;
+      }
+      
+      .chat-message {
+        padding: 12px 15px;
+        border-radius: 12px;
+        margin-bottom: 15px;
+        max-width: 80%;
+      }
+      
+      .user-message {
+        background: #3cba2b;
+        margin-left: auto;
+      }
+      
+      .ai-message {
+        background: #f3f4f6;
+        margin-right: auto;
+      }
+      
+      .meal-card {
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      }
+      
+      .meal-card img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+      }
+      
+      .exercise-card {
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      }
+      
+      .exercise-card img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+      }
+      
+      .avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+      
+      .tab-content {
+        display: none;
+      }
+      
+      .tab-content.active {
+        display: block;
+        animation: fadeIn 0.5s ease forwards;
+      }
+      
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Loader Overlay -->
+    <div class="loader-overlay" id="loader">
+      <div class="loader"></div>
+    </div>
+    
+    <!-- Header Navigation -->
+    <header class="bg-white shadow-sm">
+      <div class="app-container py-4 px-6 flex justify-between items-center">
+        <a href="http://127.0.0.1:5500/Power%20Pulse.html">
+          <div class="flex items-center">
+          <div class="gradient-bg w-10 h-10 rounded-lg flex items-center justify-center mr-3">
+            <i class="fas fa-bolt text-white"></i>
+          </div>
+          <h1 class="text-xl font-bold">
+            <span class="brand-primary">Power</span><span class="brand-secondary">Pulse</span>
+          </h1>
+        </div>
+        </a>
+        
+        <div class="hidden md:flex space-x-6">
+          <a href="javascript:void(0)" class="text-gray-600 hover:text-indigo-600 transition" data-tab="home">Inicio</a>
+          <a href="javascript:void(0)" class="text-gray-600 hover:text-indigo-600 transition" data-tab="nutrition">Nutrición</a>
+          <a href="javascript:void(0)" class="text-gray-600 hover:text-indigo-600 transition" data-tab="fitness">Entrenamiento</a>
+          <a href="javascript:void(0)" class="text-gray-600 hover:text-indigo-600 transition" data-tab="progress">Progreso</a>
+          <a href="javascript:void(0)" class="text-gray-600 hover:text-indigo-600 transition" data-tab="ai-assistant">IA Asistente</a>
+        </div>
+        
+        <div class="flex items-center space-x-4">
+          <button id="profile-button" class="relative">
+            <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" class="avatar" alt="Perfil">
+          </button>
+          <button id="mobile-menu-button" class="md:hidden text-gray-600">
+            <i class="fas fa-bars text-xl"></i>
+          </button>
+        </div>
+      </div>
+      
+      <!-- Mobile Menu -->
+      <div id="mobile-menu" class="hidden md:hidden px-6 py-4 bg-white shadow-inner">
+        <div class="flex flex-col space-y-3">
+          <a href="javascript:void(0)" class="text-gray-600 hover:text-indigo-600 transition py-2" data-tab="home">Inicio</a>
+          <a href="javascript:void(0)" class="text-gray-600 hover:text-indigo-600 transition py-2" data-tab="nutrition">Nutrición</a>
+          <a href="javascript:void(0)" class="text-gray-600 hover:text-indigo-600 transition py-2" data-tab="fitness">Entrenamiento</a>
+          <a href="javascript:void(0)" class="text-gray-600 hover:text-indigo-600 transition py-2" data-tab="progress">Progreso</a>
+          <a href="javascript:void(0)" class="text-gray-600 hover:text-indigo-600 transition py-2" data-tab="ai-assistant">IA Asistente</a>
+        </div>
+      </div>
+    </header>
+    
+    <main class="app-container px-6 py-4">
+      <!-- Welcome Section - Home Tab -->
+      <section id="home-tab" class="tab-content active">
+        <div class="py-6">
+          <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold mb-4">Bienvenido a <span class="brand-primary">Power</span><span class="brand-secondary">Pulse</span></h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">Tu asistente personal para lograr un estilo de vida saludable a través de nutrición inteligente y entrenamientos adaptados a tus necesidades.</p>
+          </div>
+          
+          <div class="grid md:grid-cols-3 gap-6 mb-12">
+            <div class="card bg-white p-6 feature-card">
+              <div class="feature-icon gradient-bg text-white">
+                <i class="fas fa-apple-alt"></i>
+              </div>
+              <h3 class="text-xl font-semibold mb-3">Nutrición Personalizada</h3>
+              <p class="text-gray-600 mb-4">Planes de alimentación adaptados a tus preferencias, objetivos y restricciones dietéticas.</p>
+              <a href="javascript:void(0)" class="btn-primary text-center mt-auto inline-block w-full" data-tab="nutrition">Ver planes</a>
+            </div>
+            
+            <div class="card bg-white p-6 feature-card">
+              <div class="feature-icon gradient-bg text-white">
+                <i class="fas fa-dumbbell"></i>
+              </div>
+              <h3 class="text-xl font-semibold mb-3">Entrenamiento Adaptativo</h3>
+              <p class="text-gray-600 mb-4">Rutinas de ejercicio diseñadas para tu nivel de condición física y objetivos personales.</p>
+              <a href="javascript:void(0)" class="btn-primary text-center mt-auto inline-block w-full" data-tab="fitness">Empezar rutina</a>
+            </div>
+            
+            <div class="card bg-white p-6 feature-card">
+              <div class="feature-icon gradient-bg text-white">
+                <i class="fas fa-robot"></i>
+              </div>
+              <h3 class="text-xl font-semibold mb-3">Asistente IA</h3>
+              <p class="text-gray-600 mb-4">Recibe consejos personalizados y respuestas a tus dudas en tiempo real con nuestro asistente IA.</p>
+              <a href="javascript:void(0)" class="btn-primary text-center mt-auto inline-block w-full" data-tab="ai-assistant">Hablar con IA</a>
+            </div>
+          </div>
+          
+          <div class="card bg-white p-8 mb-12">
+            <h3 class="text-xl font-semibold mb-4">Completa tu perfil para comenzar</h3>
+            <p class="text-gray-600 mb-6">Ayúdanos a conocerte mejor para ofrecerte recomendaciones personalizadas</p>
+            
+            <button id="open-questionnaire" class="btn-primary flex items-center justify-center w-full sm:w-auto">
+              <i class="fas fa-clipboard-list mr-2"></i>
+              Completar cuestionario inicial
+            </button>
+          </div>
+          
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="card bg-white p-6">
+              <h3 class="text-xl font-semibold mb-4">Resumen de Progreso</h3>
+              <div class="h-64 flex items-center justify-center">
+                <p class="text-gray-500">Completa tu perfil para ver tu progreso</p>
+              </div>
+              <a href="javascript:void(0)" class="btn-secondary text-center inline-block w-full" data-tab="progress">Ver detalles</a>
+            </div>
+            
+            <div class="card bg-white p-6">
+              <h3 class="text-xl font-semibold mb-4">Recomendación del día</h3>
+              <div class="h-64 flex items-center justify-center flex-col">
+                <i class="fas fa-lightbulb text-4xl text-yellow-400 mb-4"></i>
+                <p class="text-gray-500 text-center px-6">Completa tu perfil para recibir recomendaciones diarias personalizadas</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Nutrition Tab -->
+      <section id="nutrition-tab" class="tab-content">
+        <div class="py-6">
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
+            <div>
+              <h2 class="text-2xl font-bold mb-2">Plan de Nutrición</h2>
+              <p class="text-gray-600">Recomendaciones alimenticias personalizadas</p>
+            </div>
+            
+            <div class="mt-4 md:mt-0 flex space-x-3">
+              <button id="nutrition-preferences" class="btn-secondary flex items-center">
+                <i class="fas fa-sliders-h mr-2"></i>
+                Preferencias
+              </button>
+              <button id="refresh-nutrition" class="btn-primary flex items-center">
+                <i class="fas fa-sync-alt mr-2"></i>
+                Actualizar
+              </button>
+            </div>
+          </div>
+          
+          <div class="card bg-white p-6 mb-8">
+            <h3 class="text-xl font-semibold mb-4">Tu plan semanal</h3>
+            
+            <div class="flex overflow-x-auto pb-4 space-x-4">
+              <button class="day-selector px-4 py-2 rounded-lg bg-indigo-600 text-white font-medium">Lunes</button>
+              <button class="day-selector px-4 py-2 rounded-lg bg-gray-200 text-gray-700 font-medium">Martes</button>
+              <button class="day-selector px-4 py-2 rounded-lg bg-gray-200 text-gray-700 font-medium">Miércoles</button>
+              <button class="day-selector px-4 py-2 rounded-lg bg-gray-200 text-gray-700 font-medium">Jueves</button>
+              <button class="day-selector px-4 py-2 rounded-lg bg-gray-200 text-gray-700 font-medium">Viernes</button>
+              <button class="day-selector px-4 py-2 rounded-lg bg-gray-200 text-gray-700 font-medium">Sábado</button>
+              <button class="day-selector px-4 py-2 rounded-lg bg-gray-200 text-gray-700 font-medium">Domingo</button>
+            </div>
+          </div>
+          
+          <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="meal-card bg-white">
+              <img src="https://cdn.pixabay.com/photo/2016/11/06/23/31/breakfast-1804457_960_720.jpg" alt="Desayuno">
+              <div class="p-4">
+                <h4 class="font-semibold">Desayuno</h4>
+                <div class="text-sm text-gray-600 mt-2">
+                  <p>• Avena con frutas y nueces</p>
+                  <p>• Batido de proteínas</p>
+                  <p>• Té verde</p>
+                </div>
+                <div class="flex justify-between mt-4 text-sm">
+                  <span><i class="fas fa-fire text-orange-500 mr-1"></i> 420 kcal</span>
+                  <span><i class="fas fa-info-circle text-blue-500 mr-1"></i> <a href="javascript:void(0)" class="text-blue-500">Detalles</a></span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="meal-card bg-white">
+              <img src="https://cdn.pixabay.com/photo/2017/09/16/19/21/salad-2756467_960_720.jpg" alt="Almuerzo">
+              <div class="p-4">
+                <h4 class="font-semibold">Almuerzo</h4>
+                <div class="text-sm text-gray-600 mt-2">
+                  <p>• Ensalada de quinoa</p>
+                  <p>• Pechuga de pollo a la plancha</p>
+                  <p>• Verduras asadas</p>
+                </div>
+                <div class="flex justify-between mt-4 text-sm">
+                  <span><i class="fas fa-fire text-orange-500 mr-1"></i> 560 kcal</span>
+                  <span><i class="fas fa-info-circle text-blue-500 mr-1"></i> <a href="javascript:void(0)" class="text-blue-500">Detalles</a></span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="meal-card bg-white">
+              <img src="https://cdn.pixabay.com/photo/2015/03/26/10/28/sunset-691927_960_720.jpg" alt="Merienda">
+              <div class="p-4">
+                <h4 class="font-semibold">Merienda</h4>
+                <div class="text-sm text-gray-600 mt-2">
+                  <p>• Yogur griego con miel</p>
+                  <p>• Puñado de almendras</p>
+                  <p>• Manzana</p>
+                </div>
+                <div class="flex justify-between mt-4 text-sm">
+                  <span><i class="fas fa-fire text-orange-500 mr-1"></i> 320 kcal</span>
+                  <span><i class="fas fa-info-circle text-blue-500 mr-1"></i> <a href="javascript:void(0)" class="text-blue-500">Detalles</a></span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="meal-card bg-white">
+              <img src="https://cdn.pixabay.com/photo/2017/07/16/10/43/recipe-2508859_960_720.jpg" alt="Cena">
+              <div class="p-4">
+                <h4 class="font-semibold">Cena</h4>
+                <div class="text-sm text-gray-600 mt-2">
+                  <p>• Salmón al horno</p>
+                  <p>• Arroz integral</p>
+                  <p>• Espárragos</p>
+                </div>
+                <div class="flex justify-between mt-4 text-sm">
+                  <span><i class="fas fa-fire text-orange-500 mr-1"></i> 480 kcal</span>
+                  <span><i class="fas fa-info-circle text-blue-500 mr-1"></i> <a href="javascript:void(0)" class="text-blue-500">Detalles</a></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="card bg-white p-6 mb-8">
+            <h3 class="text-xl font-semibold mb-4">Resumen Nutricional</h3>
+            <div class="grid md:grid-cols-4 gap-4 text-center">
+              <div class="p-4 bg-indigo-50 rounded-lg">
+                <p class="text-gray-600 text-sm">Calorías</p>
+                <p class="text-2xl font-bold text-indigo-600">1780</p>
+                <p class="text-xs text-gray-500">kcal/día</p>
+              </div>
+              <div class="p-4 bg-blue-50 rounded-lg">
+                <p class="text-gray-600 text-sm">Proteínas</p>
+                <p class="text-2xl font-bold text-blue-600">120g</p>
+                <p class="text-xs text-gray-500">27% del total</p>
+              </div>
+              <div class="p-4 bg-yellow-50 rounded-lg">
+                <p class="text-gray-600 text-sm">Carbohidratos</p>
+                <p class="text-2xl font-bold text-yellow-600">200g</p>
+                <p class="text-xs text-gray-500">45% del total</p>
+              </div>
+              <div class="p-4 bg-green-50 rounded-lg">
+                <p class="text-gray-600 text-sm">Grasas</p>
+                <p class="text-2xl font-bold text-green-600">55g</p>
+                <p class="text-xs text-gray-500">28% del total</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="card bg-white p-6">
+            <h3 class="text-xl font-semibold mb-4">Consejos de alimentación</h3>
+            <div class="space-y-4">
+              <div class="flex items-start">
+                <div class="bg-green-100 p-2 rounded-full mr-4">
+                  <i class="fas fa-check text-green-600"></i>
+                </div>
+                <div>
+                  <h4 class="font-medium">Hidratación constante</h4>
+                  <p class="text-gray-600 text-sm">Bebe al menos 2 litros de agua diarios para mantener una hidratación óptima.</p>
+                </div>
+              </div>
+              
+              <div class="flex items-start">
+                <div class="bg-green-100 p-2 rounded-full mr-4">
+                  <i class="fas fa-check text-green-600"></i>
+                </div>
+                <div>
+                  <h4 class="font-medium">Proteínas en cada comida</h4>
+                  <p class="text-gray-600 text-sm">Incluye una fuente de proteína de calidad en cada comida para mantener la masa muscular.</p>
+                </div>
+              </div>
+              
+              <div class="flex items-start">
+                <div class="bg-green-100 p-2 rounded-full mr-4">
+                  <i class="fas fa-check text-green-600"></i>
+                </div>
+                <div>
+                  <h4 class="font-medium">Fibra dietética</h4>
+                  <p class="text-gray-600 text-sm">Consume suficientes frutas, verduras y cereales integrales para obtener la fibra necesaria.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Fitness Tab -->
+      <section id="fitness-tab" class="tab-content">
+        <div class="py-6">
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
+            <div>
+              <h2 class="text-2xl font-bold mb-2">Entrenamiento Personalizado</h2>
+              <p class="text-gray-600">Rutinas adaptadas a tu nivel y objetivos</p>
+            </div>
+            
+            <div class="mt-4 md:mt-0 flex space-x-3">
+              <button id="fitness-preferences" class="btn-secondary flex items-center">
+                <i class="fas fa-sliders-h mr-2"></i>
+                Ajustes
+              </button>
+              <button id="refresh-fitness" class="btn-primary flex items-center">
+                <i class="fas fa-sync-alt mr-2"></i>
+                Nueva rutina
+              </button>
+            </div>
+          </div>
+          
+          <div class="card bg-white p-6 mb-8">
+            <h3 class="text-xl font-semibold mb-4">Objetivos seleccionados</h3>
+            <div class="flex flex-wrap gap-3">
+              <span class="px-4 py-2 bg-indigo-100 text-indigo-700 rounded-full text-sm font-medium">Pérdida de grasa</span>
+              <span class="px-4 py-2 bg-indigo-100 text-indigo-700 rounded-full text-sm font-medium">Tonificación</span>
+              <span class="px-4 py-2 bg-indigo-100 text-indigo-700 rounded-full text-sm font-medium">Resistencia</span>
+            </div>
+          </div>
+          
+          <div class="grid md:grid-cols-2 gap-6 mb-8">
+            <div class="card bg-white p-6">
+              <h3 class="text-xl font-semibold mb-4">Rutina semanal</h3>
+              <div class="space-y-4">
+                <div class="p-3 bg-gray-50 rounded-lg flex justify-between items-center">
+                  <div>
+                    <h4 class="font-medium">Lunes</h4>
+                    <p class="text-gray-600 text-sm">Entrenamiento de piernas</p>
+                  </div>
+                  <button class="px-3 py-1 text-sm bg-indigo-600 text-white rounded-lg">Ver</button>
+                </div>
+                
+                <div class="p-3 bg-gray-50 rounded-lg flex justify-between items-center">
+                  <div>
+                    <h4 class="font-medium">Martes</h4>
+                    <p class="text-gray-600 text-sm">Cardio HIIT</p>
+                  </div>
+                  <button class="px-3 py-1 text-sm bg-indigo-600 text-white rounded-lg">Ver</button>
+                </div>
+                
+                <div class="p-3 bg-gray-50 rounded-lg flex justify-between items-center">
+                  <div>
+                    <h4 class="font-medium">Miércoles</h4>
+                    <p class="text-gray-600 text-sm">Torso y brazos</p>
+                  </div>
+                  <button class="px-3 py-1 text-sm bg-indigo-600 text-white rounded-lg">Ver</button>
+                </div>
+                
+                <div class="p-3 bg-gray-50 rounded-lg flex justify-between items-center">
+                  <div>
+                    <h4 class="font-medium">Jueves</h4>
+                    <p class="text-gray-600 text-sm">Descanso activo</p>
+                  </div>
+                  <button class="px-3 py-1 text-sm bg-indigo-600 text-white rounded-lg">Ver</button>
+                </div>
+                
+                <div class="p-3 bg-gray-50 rounded-lg flex justify-between items-center">
+                  <div>
+                    <h4 class="font-medium">Viernes</h4>
+                    <p class="text-gray-600 text-sm">Entrenamiento funcional</p>
+                  </div>
+                  <button class="px-3 py-1 text-sm bg-indigo-600 text-white rounded-lg">Ver</button>
+                </div>
+                
+                <div class="p-3 bg-gray-50 rounded-lg flex justify-between items-center">
+                  <div>
+                    <h4 class="font-medium">Sábado</h4>
+                    <p class="text-gray-600 text-sm">Cuerpo completo</p>
+                  </div>
+                  <button class="px-3 py-1 text-sm bg-indigo-600 text-white rounded-lg">Ver</button>
+                </div>
+                
+                <div class="p-3 bg-gray-50 rounded-lg flex justify-between items-center">
+                  <div>
+                    <h4 class="font-medium">Domingo</h4>
+                    <p class="text-gray-600 text-sm">Descanso completo</p>
+                  </div>
+                  <button class="px-3 py-1 text-sm bg-indigo-600 text-white rounded-lg">Ver</button>
+                </div>
+              </div>
+            </div>
+            
+            <div class="card bg-white p-6">
+              <h3 class="text-xl font-semibold mb-4">Entrenamiento de hoy</h3>
+              <div class="text-center mb-4">
+                <h4 class="font-medium text-lg">Lunes: Entrenamiento de piernas</h4>
+                <p class="text-gray-600">Duración estimada: 45 min.</p>
+              </div>
+              
+              <div class="space-y-4 mb-6">
+                <div class="exercise-item p-3 bg-gray-50 rounded-lg">
+                  <div class="flex justify-between items-center">
+                    <h5 class="font-medium">1. Sentadillas</h5>
+                    <span class="text-sm text-gray-600">4 series x 12 rep.</span>
+                  </div>
+                  <p class="text-sm text-gray-600 mt-1">Descanso: 60 seg. entre series</p>
+                </div>
+                
+                <div class="exercise-item p-3 bg-gray-50 rounded-lg">
+                  <div class="flex justify-between items-center">
+                    <h5 class="font-medium">2. Estocadas</h5>
+                    <span class="text-sm text-gray-600">3 series x 10 rep.</span>
+                  </div>
+                  <p class="text-sm text-gray-600 mt-1">Descanso: 45 seg. entre series</p>
+                </div>
+                
+                <div class="exercise-item p-3 bg-gray-50 rounded-lg">
+                  <div class="flex justify-between items-center">
+                    <h5 class="font-medium">3. Peso muerto rumano</h5>
+                    <span class="text-sm text-gray-600">4 series x 10 rep.</span>
+                  </div>
+                  <p class="text-sm text-gray-600 mt-1">Descanso: 60 seg. entre series</p>
+                </div>
+                
+                <div class="exercise-item p-3 bg-gray-50 rounded-lg">
+                  <div class="flex justify-between items-center">
+                    <h5 class="font-medium">4. Elevación de gemelos</h5>
+                    <span class="text-sm text-gray-600">3 series x 15 rep.</span>
+                  </div>
+                  <p class="text-sm text-gray-600 mt-1">Descanso: 30 seg. entre series</p>
+                </div>
+                
+                <div class="exercise-item p-3 bg-gray-50 rounded-lg">
+                  <div class="flex justify-between items-center">
+                    <h5 class="font-medium">5. Extensión de cuádriceps</h5>
+                    <span class="text-sm text-gray-600">3 series x 12 rep.</span>
+                  </div>
+                  <p class="text-sm text-gray-600 mt-1">Descanso: 45 seg. entre series</p>
+                </div>
+              </div>
+              
+              <button class="btn-primary w-full">Comenzar entrenamiento</button>
+            </div>
+          </div>
+          
+          <div class="grid md:grid-cols-3 gap-6">
+            <div class="exercise-card bg-white">
+              <img src="https://cdn.pixabay.com/photo/2017/08/07/14/02/man-2604149_960_720.jpg" alt="Sentadillas">
+              <div class="p-4">
+                <h4 class="font-semibold">Sentadillas</h4>
+                <p class="text-gray-600 text-sm mb-2">Ejercicio compuesto para cuádriceps, glúteos y core.</p>
+                <a href="javascript:void(0)" class="text-indigo-600 text-sm font-medium">Ver técnica correcta →</a>
+              </div>
+            </div>
+            
+            <div class="exercise-card bg-white">
+              <img src="https://cdn.pixabay.com/photo/2017/04/27/08/29/man-2264825_960_720.jpg" alt="Estocadas">
+              <div class="p-4">
+                <h4 class="font-semibold">Estocadas</h4>
+                <p class="text-gray-600 text-sm mb-2">Fortalece piernas y mejora equilibrio y coordinación.</p>
+                <a href="javascript:void(0)" class="text-indigo-600 text-sm font-medium">Ver técnica correcta →</a>
+              </div>
+            </div>
+            
+            <div class="exercise-card bg-white">
+              <img src="https://cdn.pixabay.com/photo/2021/01/04/06/25/man-5886577_960_720.jpg" alt="Peso muerto">
+              <div class="p-4">
+                <h4 class="font-semibold">Peso muerto rumano</h4>
+                <p class="text-gray-600 text-sm mb-2">Enfocado en isquiotibiales y espalda baja.</p>
+                <a href="javascript:void(0)" class="text-indigo-600 text-sm font-medium">Ver técnica correcta →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Progress Tab -->
+      <section id="progress-tab" class="tab-content">
+        <div class="py-6">
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
+            <div>
+              <h2 class="text-2xl font-bold mb-2">Seguimiento de Progreso</h2>
+              <p class="text-gray-600">Visualiza tus avances y logros</p>
+            </div>
+            
+            <div class="mt-4 md:mt-0 flex space-x-3">
+              <button id="add-measurement" class="btn-secondary flex items-center">
+                <i class="fas fa-plus mr-2"></i>
+                Añadir medición
+              </button>
+              <button id="export-data" class="btn-primary flex items-center">
+                <i class="fas fa-download mr-2"></i>
+                Exportar datos
+              </button>
+            </div>
+          </div>
+          
+          <div class="grid md:grid-cols-2 gap-6 mb-8">
+            <div class="card bg-white p-6">
+              <h3 class="text-xl font-semibold mb-4">Peso Corporal</h3>
+              <div class="h-64">
+                <canvas id="weightChart" class="progress-chart"></canvas>
+              </div>
+            </div>
+            
+            <div class="card bg-white p-6">
+              <h3 class="text-xl font-semibold mb-4">Composición Corporal</h3>
+              <div class="h-64">
+                <canvas id="compositionChart" class="progress-chart"></canvas>
+              </div>
+            </div>
+          </div>
+          
+          <div class="card bg-white p-6 mb-8">
+            <h3 class="text-xl font-semibold mb-4">Medidas corporales</h3>
+            <div class="overflow-x-auto">
+              <table class="min-w-full divide-y divide-gray-200">
+                <thead>
+                  <tr>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Peso (kg)</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">% Grasa</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cintura (cm)</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cadera (cm)</th>
+                  </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                  <tr>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">15/03/2025</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">78.5</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">24.2%</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">89</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">98</td>
+                  </tr>
+                  <tr>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">01/03/2025</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">79.3</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">25.1%</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">90</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">99</td>
+                  </tr>
+                  <tr>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">15/02/2025</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">80.1</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">25.8%</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">91</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">100</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="card bg-white p-6">
+              <h3 class="text-xl font-semibold mb-4">Logros</h3>
+              <div class="space-y-4">
+                <div class="flex items-center p-3 bg-green-50 rounded-lg">
+                  <div class="bg-green-500 text-white p-2 rounded-full mr-4">
+                    <i class="fas fa-trophy"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-medium">Primera semana completada</h4>
+                    <p class="text-gray-600 text-sm">Has completado todos tus entrenamientos durante una semana.</p>
+                  </div>
+                </div>
+                
+                <div class="flex items-center p-3 bg-green-50 rounded-lg">
+                  <div class="bg-green-500 text-white p-2 rounded-full mr-4">
+                    <i class="fas fa-trophy"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-medium">Pérdida inicial</h4>
+                    <p class="text-gray-600 text-sm">Has perdido tus primeros 2 kg de peso.</p>
+                  </div>
+                </div>
+                
+                <div class="flex items-center p-3 bg-gray-100 rounded-lg opacity-50">
+                  <div class="bg-gray-400 text-white p-2 rounded-full mr-4">
+                    <i class="fas fa-lock"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-medium">Meta de composición corporal</h4>
+                    <p class="text-gray-600 text-sm">Alcanza tu objetivo de porcentaje de grasa corporal.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="card bg-white p-6">
+              <h3 class="text-xl font-semibold mb-4">Estadísticas de entrenamiento</h3>
+              <div class="grid grid-cols-2 gap-4 mb-6">
+                <div class="text-center p-4 bg-indigo-50 rounded-lg">
+                  <h4 class="text-gray-600 text-sm">Entrenamientos</h4>
+                  <p class="text-2xl font-bold text-indigo-600">12</p>
+                  <p class="text-xs text-gray-500">completados</p>
+                </div>
+                
+                <div class="text-center p-4 bg-blue-50 rounded-lg">
+                  <h4 class="text-gray-600 text-sm">Tiempo Total</h4>
+                  <p class="text-2xl font-bold text-blue-600">9h 20m</p>
+                  <p class="text-xs text-gray-500">de actividad</p>
+                </div>
+                
+                <div class="text-center p-4 bg-purple-50 rounded-lg">
+                  <h4 class="text-gray-600 text-sm">Calorías</h4>
+                  <p class="text-2xl font-bold text-purple-600">6,240</p>
+                  <p class="text-xs text-gray-500">quemadas</p>
+                </div>
+                
+                <div class="text-center p-4 bg-green-50 rounded-lg">
+                  <h4 class="text-gray-600 text-sm">Consistencia</h4>
+                  <p class="text-2xl font-bold text-green-600">85%</p>
+                  <p class="text-xs text-gray-500">de cumplimiento</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- AI Assistant Tab -->
+      <section id="ai-assistant-tab" class="tab-content">
+        <div class="py-6">
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
+            <div>
+              <h2 class="text-2xl font-bold mb-2">Asistente IA</h2>
+              <p class="text-gray-600">Tu coach personal de salud y fitness</p>
+            </div>
+            
+            <div class="mt-4 md:mt-0 flex space-x-3">
+              <button id="clear-chat" class="btn-secondary flex items-center">
+                <i class="fas fa-eraser mr-2"></i>
+                Limpiar chat
+              </button>
+            </div>
+          </div>
+          
+          <div class="grid md:grid-cols-3 gap-6 mb-8">
+            <div class="md:col-span-2 card bg-white p-6">
+              <div class="ai-chat-container mb-4" id="chatMessages">
+                <div class="chat-message ai-message">
+                  <p>¡Hola! Soy tu asistente personal de Power Pulse. ¿En qué puedo ayudarte hoy? Puedo responder preguntas sobre nutrición, entrenamientos, o darte consejos personalizados.</p>
+                </div>
+              </div>
+              
+              <div class="flex items-center">
+                <input type="text" id="chatInput" class="form-input mr-2" placeholder="Escribe tu mensaje aquí...">
+                <button id="sendMessage" class="btn-primary px-4 py-3">
+                  <i class="fas fa-paper-plane"></i>
+                </button>
+              </div>
+            </div>
+            
+            <div class="card bg-white p-6">
+              <h3 class="text-xl font-semibold mb-4">Preguntas sugeridas</h3>
+              <div class="space-y-3">
+                <button class="suggested-question w-full text-left p-3 bg-gray-50 hover:bg-gray-100 rounded-lg text-sm transition">
+                  ¿Cómo puedo mejorar mi resistencia cardiovascular?
+                </button>
+                
+                <button class="suggested-question w-full text-left p-3 bg-gray-50 hover:bg-gray-100 rounded-lg text-sm transition">
+                  ¿Qué alimentos me ayudan a recuperarme mejor después del entrenamiento?
+                </button>
+                
+                <button class="suggested-question w-full text-left p-3 bg-gray-50 hover:bg-gray-100 rounded-lg text-sm transition">
+                  ¿Cómo puedo reducir el dolor muscular después de entrenar?
+                </button>
+                
+                <button class="suggested-question w-full text-left p-3 bg-gray-50 hover:bg-gray-100 rounded-lg text-sm transition">
+                  ¿Cuánto tiempo debo descansar entre series de ejercicios?
+                </button>
+                
+                <button class="suggested-question w-full text-left p-3 bg-gray-50 hover:bg-gray-100 rounded-lg text-sm transition">
+                  ¿Qué ejercicios son mejores para fortalecer la espalda baja?
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <div class="card bg-white p-6">
+            <h3 class="text-xl font-semibold mb-4">Historial de conversaciones</h3>
+            <div class="space-y-3">
+              <p class="text-gray-500 text-center py-8">No hay conversaciones guardadas todavía.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    
+    <!-- Questionnaire Modal -->
+    <div class="modal-overlay" id="questionnaire-modal">
+      <div class="modal-content">
+        <div class="flex justify-between items-center mb-6">
+          <h3 class="text-xl font-bold">Cuestionario inicial</h3>
+          <button class="close-modal text-gray-400 hover:text-gray-600">
+            <i class="fas fa-times text-xl"></i>
+          </button>
+        </div>
+        
+        <div class="mb-8">
+          <p class="text-gray-600 mb-4">Ayúdanos a personalizar tu experiencia respondiendo estas preguntas:</p>
+          
+          <form id="user-profile-form">
+            <div class="space-y-6">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Objetivo principal</label>
+                <select class="form-input">
+                  <option>Selecciona tu objetivo</option>
+                  <option>Pérdida de peso</option>
+                  <option>Ganancia de músculo</option>
+                  <option>Mejorar condición física</option>
+                  <option>Mantenimiento</option>
+                  <option>Tonificación</option>
+                </select>
+              </div>
+              
+              <div class="grid md:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1">Edad</label>
+                  <input type="number" class="form-input" placeholder="Edad">
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1">Género</label>
+                  <select class="form-input">
+                    <option>Selecciona</option>
+                    <option>Masculino</option>
+                    <option>Femenino</option>
+                    <option>No binario</option>
+                    <option>Prefiero no decir</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div class="grid md:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1">Altura (cm)</label>
+                  <input type="number" class="form-input" placeholder="Altura en cm">
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1">Peso actual (kg)</label>
+                  <input type="number" class="form-input" placeholder="Peso en kg">
+                </div>
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Nivel de actividad física</label>
+                <select class="form-input">
+                  <option>Selecciona tu nivel</option>
+                  <option>Sedentario (poco o nada de ejercicio)</option>
+                  <option>Ligeramente activo (ejercicio ligero 1-3 días/semana)</option>
+                  <option>Moderadamente activo (ejercicio moderado 3-5 días/semana)</option>
+                  <option>Muy activo (ejercicio intenso 6-7 días/semana)</option>
+                  <option>Extremadamente activo (atleta profesional)</option>
+                </select>
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Preferencias alimenticias</label>
+                <div class="grid grid-cols-2 gap-2">
+                  <label class="flex items-center">
+                    <input type="checkbox" class="mr-2"> Vegetariano
+                  </label>
+                  <label class="flex items-center">
+                    <input type="checkbox" class="mr-2"> Vegano
+                  </label>
+                  <label class="flex items-center">
+                    <input type="checkbox" class="mr-2"> Sin gluten
+                  </label>
+                  <label class="flex items-center">
+                    <input type="checkbox" class="mr-2"> Sin lactosa
+                  </label>
+                  <label class="flex items-center">
+                    <input type="checkbox" class="mr-2"> Paleo
+                  </label>
+                  <label class="flex items-center">
+                    <input type="checkbox" class="mr-2"> Keto
+                  </label>
+                </div>
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Alergias o intolerancias</label>
+                <input type="text" class="form-input" placeholder="Ej. frutos secos, huevo, mariscos">
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">¿Tienes alguna lesión o condición médica?</label>
+                <textarea class="form-input" rows="3" placeholder="Describe cualquier lesión o condición médica que debamos tener en cuenta"></textarea>
+              </div>
+            </div>
+            
+            <div class="mt-8 flex justify-end">
+              <button type="button" class="btn-secondary mr-3 close-modal">Cancelar</button>
+              <button type="button" id="save-profile" class="btn-primary">Guardar perfil</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Nutrition Preferences Modal -->
+    <div class="modal-overlay" id="nutrition-preferences-modal">
+      <div class="modal-content">
+        <div class="flex justify-between items-center mb-6">
+          <h3 class="text-xl font-bold">Preferencias de nutrición</h3>
+          <button class="close-modal text-gray-400 hover:text-gray-600">
+            <i class="fas fa-times text-xl"></i>
+          </button>
+        </div>
+        
+        <div class="mb-8">
+          <form id="nutrition-preferences-form">
+            <div class="space-y-6">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Objetivo calórico</label>
+                <select class="form-input">
+                  <option>Déficit calórico (pérdida de peso)</option>
+                  <option>Mantenimiento</option>
+                  <option>Superávit calórico (ganancia de peso/músculo)</option>
+                </select>
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Distribución de macronutrientes</label>
+                <select class="form-input">
+                  <option>Equilibrado (40% carbohidratos, 30% proteínas, 30% grasas)</option>
+                  <option>Alto en proteínas (25% carbohidratos, 45% proteínas, 30% grasas)</option>
+                  <option>Alto en carbohidratos (50% carbohidratos, 30% proteínas, 20% grasas)</option>
+                  <option>Cetogénico (5% carbohidratos, 25% proteínas, 70% grasas)</option>
+                </select>
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Número de comidas al día</label>
+                <select class="form-input">
+                  <option>3 comidas</option>
+                  <option>4 comidas</option>
+                  <option>5 comidas</option>
+                  <option>6 comidas</option>
+                </select>
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Alimentos favoritos (para incluir en tu plan)</label>
+                <textarea class="form-input" rows="3" placeholder="Ej. pollo, brócoli, plátanos, quinoa"></textarea>
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Alimentos que prefieres evitar</label>
+                <textarea class="form-input" rows="3" placeholder="Ej. coliflor, carne roja, champiñones"></textarea>
+              </div>
+            </div>
+            
+            <div class="mt-8 flex justify-end">
+              <button type="button" class="btn-secondary mr-3 close-modal">Cancelar</button>
+              <button type="button" id="save-nutrition-prefs" class="btn-primary">Guardar preferencias</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Fitness Preferences Modal -->
+    <div class="modal-overlay" id="fitness-preferences-modal">
+      <div class="modal-content">
+        <div class="flex justify-between items-center mb-6">
+          <h3 class="text-xl font-bold">Preferencias de entrenamiento</h3>
+          <button class="close-modal text-gray-400 hover:text-gray-600">
+            <i class="fas fa-times text-xl"></i>
+          </button>
+        </div>
+        
+        <div class="mb-8">
+          <form id="fitness-preferences-form">
+            <div class="space-y-6">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Objetivo de entrenamiento</label>
+                <div class="grid grid-cols-2 gap-2">
+                  <label class="flex items-center">
+                    <input type="checkbox" class="mr-2"> Pérdida de grasa
+                  </label>
+                  <label class="flex items-center">
+                    <input type="checkbox" class="mr-2"> Ganancia muscular
+                  </label>
+                  <label class="flex items-center">
+                    <input type="checkbox" class="mr-2"> Resistencia
+                  </label>
+                  <label class="flex items-center">
+                    <input type="checkbox" class="mr-2"> Flexibilidad
+                  </label>
+                  <label class="flex items-center">
+                    <input type="checkbox" class="mr-2"> Fuerza
+                  </label>
+                  <label class="flex items-center">
+                    <input type="checkbox" class="mr-2"> Tonificación
+                  </label>
+                </div>
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Experiencia en entrenamiento</label>
+                <select class="form-input">
+                  <option>Principiante</option>
+                  <option>Intermedio</option>
+                  <option>Avanzado</option>
+                </select>
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Días disponibles por semana</label>
+                <select class="form-input">
+                  <option>2-3 días</option>
+                  <option>4-5 días</option>
+                  <option>6-7 días</option>
+                </select>
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Duración preferida de entrenamiento</label>
+                <select class="form-input">
+                  <option>20-30 minutos</option>
+                  <option>30-45 minutos</option>
+                  <option>45-60 minutos</option>
+                  <option>Más de 60 minutos</option>
+                </select>
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Equipo disponible</label>
+                <div class="grid grid-cols-2 gap-2">
+                  <label class="flex items-center">
+                    <input type="checkbox" class="mr-2"> Sin equipo (peso corporal)
+                  </label>
+                  <label class="flex items-center">
+                    <input type="checkbox" class="mr-2"> Mancuernas
+                  </label>
+                  <label class="flex items-center">
+                    <input type="checkbox" class="mr-2"> Barras y discos
+                  </label>
+                  <label class="flex items-center">
+                    <input type="checkbox" class="mr-2"> Máquinas
+                  </label>
+                  <label class="flex items-center">
+                    <input type="checkbox" class="mr-2"> Bandas elásticas
+                  </label>
+                  <label class="flex items-center">
+                    <input type="checkbox" class="mr-2"> TRX/Suspensión
+                  </label>
+                </div>
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Áreas a enfatizar</label>
+                <div class="grid grid-cols-2 gap-2">
+                  <label class="flex items-center">
+                    <input type="checkbox" class="mr-2"> Piernas
+                  </label>
+                  <label class="flex items-center">
+                    <input type="checkbox" class="mr-2"> Glúteos
+                  </label>
+                  <label class="flex items-center">
+                    <input type="checkbox" class="mr-2"> Espalda
+                  </label>
+                  <label class="flex items-center">
+                    <input type="checkbox" class="mr-2"> Pecho
+                  </label>
+                  <label class="flex items-center">
+                    <input type="checkbox" class="mr-2"> Brazos
+                  </label>
+                  <label class="flex items-center">
+                    <input type="checkbox" class="mr-2"> Core/Abdomen
+                  </label>
+                </div>
+              </div>
+            </div>
+            
+            <div class="mt-8 flex justify-end">
+              <button type="button" class="btn-secondary mr-3 close-modal">Cancelar</button>
+              <button type="button" id="save-fitness-prefs" class="btn-primary">Guardar preferencias</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Add Measurement Modal -->
+    <div class="modal-overlay" id="add-measurement-modal">
+      <div class="modal-content">
+        <div class="flex justify-between items-center mb-6">
+          <h3 class="text-xl font-bold">Añadir nueva medición</h3>
+          <button class="close-modal text-gray-400 hover:text-gray-600">
+            <i class="fas fa-times text-xl"></i>
+          </button>
+        </div>
+        
+        <div class="mb-8">
+          <form id="measurement-form">
+            <div class="space-y-6">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Fecha</label>
+                <input type="date" class="form-input">
+              </div>
+              
+              <div class="grid md:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1">Peso (kg)</label>
+                  <input type="number" step="0.1" class="form-input" placeholder="Ej. 70.5">
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1">% Grasa corporal</label>
+                  <input type="number" step="0.1" class="form-input" placeholder="Ej. 22.5">
+                </div>
+              </div>
+              
+              <div class="grid md:grid-cols-3 gap-4">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1">Cintura (cm)</label>
+                  <input type="number" step="0.1" class="form-input" placeholder="Ej. 80.5">
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1">Cadera (cm)</label>
+                  <input type="number" step="0.1" class="form-input" placeholder="Ej. 95.0">
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1">Pecho (cm)</label>
+                  <input type="number" step="0.1" class="form-input" placeholder="Ej. 90.0">
+                </div>
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Notas adicionales</label>
+                <textarea class="form-input" rows="3" placeholder="Ej. Medición tomada después del desayuno, me siento con más energía..."></textarea>
+              </div>
+            </div>
+            
+            <div class="mt-8 flex justify-end">
+              <button type="button" class="btn-secondary mr-3 close-modal">Cancelar</button>
+              <button type="button" id="save-measurement" class="btn-primary">Guardar medición</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <script id="app-script">
+      document.addEventListener('DOMContentLoaded', function() {
+        // Tab navigation
+        const tabs = document.querySelectorAll('[data-tab]');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        tabs.forEach(tab => {
+          tab.addEventListener('click', () => {
+            const target = tab.getAttribute('data-tab');
+            
+            // Hide all tab contents
+            tabContents.forEach(content => {
+              content.classList.remove('active');
+            });
+            
+            // Show the selected tab content
+            document.getElementById(`${target}-tab`).classList.add('active');
+            
+            // Close mobile menu if open
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenu.classList.contains('block')) {
+              mobileMenu.classList.remove('block');
+              mobileMenu.classList.add('hidden');
+            }
+          });
+        });
+        
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuButton.addEventListener('click', () => {
+          if (mobileMenu.classList.contains('hidden')) {
+            mobileMenu.classList.remove('hidden');
+            mobileMenu.classList.add('block');
+          } else {
+            mobileMenu.classList.remove('block');
+            mobileMenu.classList.add('hidden');
+          }
+        });
+        
+        // Modal handling
+        const modalTriggers = {
+          'open-questionnaire': 'questionnaire-modal',
+          'nutrition-preferences': 'nutrition-preferences-modal',
+          'fitness-preferences': 'fitness-preferences-modal',
+          'add-measurement': 'add-measurement-modal'
+        };
+        
+        // Open modals
+        for (const [triggerId, modalId] of Object.entries(modalTriggers)) {
+          const trigger = document.getElementById(triggerId);
+          if (trigger) {
+            trigger.addEventListener('click', () => {
+              document.getElementById(modalId).classList.add('active');
+            });
+          }
+        }
+        
+        // Close modals
+        const closeButtons = document.querySelectorAll('.close-modal');
+        closeButtons.forEach(button => {
+          button.addEventListener('click', () => {
+            const modal = button.closest('.modal-overlay');
+            modal.classList.remove('active');
+          });
+        });
+        
+        // Close modal when clicking outside content
+        const modals = document.querySelectorAll('.modal-overlay');
+        modals.forEach(modal => {
+          modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+              modal.classList.remove('active');
+            }
+          });
+        });
+        
+        // Save profile data
+        const saveProfileButton = document.getElementById('save-profile');
+        if (saveProfileButton) {
+          saveProfileButton.addEventListener('click', () => {
+            // Show loader
+            document.getElementById('loader').classList.add('active');
+            
+            // Simulate API call
+            setTimeout(() => {
+              // Hide loader
+              document.getElementById('loader').classList.remove('active');
+              
+              // Close modal
+              document.getElementById('questionnaire-modal').classList.remove('active');
+              
+              // Show success notification (could be implemented)
+              alert('Perfil guardado correctamente');
+            }, 1500);
+          });
+        }
+        
+        // Save nutrition preferences
+        const saveNutritionPrefsButton = document.getElementById('save-nutrition-prefs');
+        if (saveNutritionPrefsButton) {
+          saveNutritionPrefsButton.addEventListener('click', () => {
+            // Show loader
+            document.getElementById('loader').classList.add('active');
+            
+            // Simulate API call
+            setTimeout(() => {
+              // Hide loader
+              document.getElementById('loader').classList.remove('active');
+              
+              // Close modal
+              document.getElementById('nutrition-preferences-modal').classList.remove('active');
+              
+              // Show success notification
+              alert('Preferencias de nutrición guardadas correctamente');
+            }, 1500);
+          });
+        }
+        
+        // Save fitness preferences
+        const saveFitnessPrefsButton = document.getElementById('save-fitness-prefs');
+        if (saveFitnessPrefsButton) {
+          saveFitnessPrefsButton.addEventListener('click', () => {
+            // Show loader
+            document.getElementById('loader').classList.add('active');
+            
+            // Simulate API call
+            setTimeout(() => {
+              // Hide loader
+              document.getElementById('loader').classList.remove('active');
+              
+              // Close modal
+              document.getElementById('fitness-preferences-modal').classList.remove('active');
+              
+              // Show success notification
+              alert('Preferencias de entrenamiento guardadas correctamente');
+            }, 1500);
+          });
+        }
+        
+        // Save measurement
+        const saveMeasurementButton = document.getElementById('save-measurement');
+        if (saveMeasurementButton) {
+          saveMeasurementButton.addEventListener('click', () => {
+            // Show loader
+            document.getElementById('loader').classList.add('active');
+            
+            // Simulate API call
+            setTimeout(() => {
+              // Hide loader
+              document.getElementById('loader').classList.remove('active');
+              
+              // Close modal
+              document.getElementById('add-measurement-modal').classList.remove('active');
+              
+              // Show success notification
+              alert('Medición guardada correctamente');
+            }, 1500);
+          });
+        }
+        
+        // AI Chat functionality
+        const chatInput = document.getElementById('chatInput');
+        const sendMessageButton = document.getElementById('sendMessage');
+        const chatMessages = document.getElementById('chatMessages');
+        
+        // Function to add a message to the chat
+        function addMessage(text, isUser = false) {
+          const messageDiv = document.createElement('div');
+          messageDiv.classList.add('chat-message');
+          messageDiv.classList.add(isUser ? 'user-message' : 'ai-message');
+          messageDiv.innerHTML = `<p>${text}</p>`;
+          chatMessages.appendChild(messageDiv);
+          
+          // Scroll to bottom
+          chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        // Handle send message
+        if (sendMessageButton && chatInput) {
+          sendMessageButton.addEventListener('click', () => {
+            const message = chatInput.value.trim();
+            if (message) {
+              // Add user message
+              addMessage(message, true);
+              
+              // Clear input
+              chatInput.value = '';
+              
+              // Show loader
+              document.getElementById('loader').classList.add('active');
+              
+              // Simulate AI response
+              setTimeout(() => {
+                // Hide loader
+                document.getElementById('loader').classList.remove('active');
+                
+                // Add AI response
+                const responses = [
+                  "¡Claro! Para mejorar tu resistencia cardiovascular, comienza con ejercicios de intensidad moderada como caminar rápido, natación o ciclismo. Incrementa gradualmente la duración y la intensidad. Intenta hacer 150 minutos semanales de actividad aeróbica moderada o 75 minutos de actividad vigorosa.",
+                  "Para recuperarte mejor después del entrenamiento, necesitas una combinación de proteínas y carbohidratos en las 2 horas posteriores al ejercicio. Alimentos como batidos de proteínas, yogur griego con fruta, pechuga de pollo con arroz integral o huevos con tostadas son excelentes opciones.",
+                  "Para reducir el dolor muscular post-entrenamiento, prueba estos métodos: 1) Estiramiento adecuado antes y después de entrenar, 2) Hidratación constante, 3) Baños de contraste frío/caliente, 4) Masajes o rodillo de espuma, 5) Asegurar una adecuada ingesta de proteínas y 6) Descanso suficiente.",
+                  "El tiempo de descanso entre series depende de tus objetivos: 30-60 segundos para resistencia muscular y acondicionamiento, 1-2 minutos para hipertrofia (crecimiento muscular), y 2-5 minutos para fuerza máxima. Ajusta según tu nivel de condición física y la intensidad del ejercicio.",
+                  "Los mejores ejercicios para fortalecer la espalda baja incluyen: puentes de glúteos, extensiones de espalda, bird-dog, superman, deadlifts con técnica correcta y planks. Recuerda mantener siempre una buena técnica para evitar lesiones."
+                ];
+                
+                // Pick a random response or generate one based on the input
+                const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                addMessage(randomResponse);
+              }, 2000);
+            }
+          });
+          
+          // Send message on Enter key
+          chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+              sendMessageButton.click();
+              e.preventDefault();
+            }
+          });
+        }
+        
+        // Handle suggested questions
+        const suggestedQuestions = document.querySelectorAll('.suggested-question');
+        suggestedQuestions.forEach(question => {
+          question.addEventListener('click', () => {
+            const questionText = question.textContent.trim();
+            chatInput.value = questionText;
+            sendMessageButton.click();
+          });
+        });
+        
+        // Clear chat
+        const clearChatButton = document.getElementById('clear-chat');
+        if (clearChatButton) {
+          clearChatButton.addEventListener('click', () => {
+            chatMessages.innerHTML = `
+              <div class="chat-message ai-message">
+                <p>¡Hola! Soy tu asistente personal de Power Pulse. ¿En qué puedo ayudarte hoy? Puedo responder preguntas sobre nutrición, entrenamientos, o darte consejos personalizados.</p>
+              </div>
+            `;
+          });
+        }
+        
+        // Initialize Charts
+        if (document.getElementById('weightChart')) {
+          const weightCtx = document.getElementById('weightChart').getContext('2d');
+          const weightChart = new Chart(weightCtx, {
+            type: 'line',
+            data: {
+              labels: ['15 Feb', '1 Mar', '15 Mar'],
+              datasets: [{
+                label: 'Peso (kg)',
+                data: [80.1, 79.3, 78.5],
+                borderColor: 'rgb(79, 70, 229)',
+                backgroundColor: 'rgba(79, 70, 229, 0.1)',
+                tension: 0.4,
+                fill: true
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                y: {
+                  beginAtZero: false,
+                  suggestedMin: 75,
+                  suggestedMax: 85
+                }
+              }
+            }
+          });
+        }
+        
+        if (document.getElementById('compositionChart')) {
+          const compositionCtx = document.getElementById('compositionChart').getContext('2d');
+          const compositionChart = new Chart(compositionCtx, {
+            type: 'line',
+            data: {
+              labels: ['15 Feb', '1 Mar', '15 Mar'],
+              datasets: [{
+                label: '% Grasa corporal',
+                data: [25.8, 25.1, 24.2],
+                borderColor: 'rgb(6, 182, 212)',
+                backgroundColor: 'rgba(6, 182, 212, 0.1)',
+                tension: 0.4,
+                fill: true
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                y: {
+                  beginAtZero: false,
+                  suggestedMin: 20,
+                  suggestedMax: 30
+                }
+              }
+            }
+          });
+        }
+        
+        // Day selector in nutrition tab
+        const daySelectors = document.querySelectorAll('.day-selector');
+        daySelectors.forEach(day => {
+          day.addEventListener('click', () => {
+            // Remove active class from all day selectors
+            daySelectors.forEach(d => {
+              d.classList.remove('bg-indigo-600', 'text-white');
+              d.classList.add('bg-gray-200', 'text-gray-700');
+            });
+            
+            // Add active class to clicked day
+            day.classList.remove('bg-gray-200', 'text-gray-700');
+            day.classList.add('bg-indigo-600', 'text-white');
+          });
+        });
+        
+        // Refresh nutrition plan
+        const refreshNutritionButton = document.getElementById('refresh-nutrition');
+        if (refreshNutritionButton) {
+          refreshNutritionButton.addEventListener('click', () => {
+            // Show loader
+            document.getElementById('loader').classList.add('active');
+            
+            // Simulate API call
+            setTimeout(() => {
+              // Hide loader
+              document.getElementById('loader').classList.remove('active');
+              
+              // Show success notification
+              alert('Plan de nutrición actualizado correctamente');
+            }, 1500);
+          });
+        }
+        
+        // Refresh fitness plan
+        const refreshFitnessButton = document.getElementById('refresh-fitness');
+        if (refreshFitnessButton) {
+          refreshFitnessButton.addEventListener('click', () => {
+            // Show loader
+            document.getElementById('loader').classList.add('active');
+            
+            // Simulate API call
+            setTimeout(() => {
+              // Hide loader
+              document.getElementById('loader').classList.remove('active');
+              
+              // Show success notification
+              alert('Rutina de entrenamiento actualizada correctamente');
+            }, 1500);
+          });
+        }
+        
+        // Export data
+        const exportDataButton = document.getElementById('export-data');
+        if (exportDataButton) {
+          exportDataButton.addEventListener('click', () => {
+            // Show loader
+            document.getElementById('loader').classList.add('active');
+            
+            // Simulate API call
+            setTimeout(() => {
+              // Hide loader
+              document.getElementById('loader').classList.remove('active');
+              
+              // Show success notification
+              alert('Los datos han sido exportados correctamente');
+            }, 1500);
+          });
+        }
+        
+        // Auto-open questionnaire modal on first visit
+        // This could be based on checking localStorage for a flag
+        if (!localStorage.getItem('questionnaire_completed')) {
+          // Simulate a slight delay to ensure DOM is fully loaded
+          setTimeout(() => {
+            const questionnaireModal = document.getElementById('questionnaire-modal');
+            if (questionnaireModal) {
+              questionnaireModal.classList.add('active');
+            }
+          }, 1000);
+        }
+      });
+    </script>
+  </body>
+</html>
